@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const renderDepartmentTable = require('./lib/renderDepartmentTable');
+const renderAllRolesTable = require('./lib/renderAllRolesTable');
 
 
 
@@ -15,15 +16,19 @@ const userOptions = [
 function init() {
   inquirer
     .prompt(userOptions)
-    .then((options) => {
-      const userChoice = options.choices;
+    .then((opt) => {
+      const userChoice = opt.options;
 
-      console.log(options.choices);
+      console.log(userChoice);
       if (userChoice === 'view all departments') {
         renderDepartmentTable();
       }
-      else {
-      return "try again"}
+      else if (userChoice === 'view all roles') {
+      renderAllRolesTable();
+       }
+       else {
+        return "try again";
+       }
     });
 }
 
