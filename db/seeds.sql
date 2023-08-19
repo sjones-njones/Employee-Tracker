@@ -6,12 +6,12 @@ VALUES  ('Math'),
         ('Art');
 
 INSERT INTO role (title, salary, department_id)
-VALUES  ('Teacher, 36000.00, 1'),
-        ('Teacher, 36000.00, 2'),
-        ('Teacher, 36000.00, 3'),
-        ('Teacher, 36000.00, 4'),
-        ('Teacher, 36000.00, 5'),
-        ('Teacher Assistant, 26000.00, 3'),('Teacher Assistant, 26000.00, 5'), ('Teacher Assistant, 26000.00, 3');
+VALUES  ('Teacher', 36000.00, 1),
+        ('Teacher', 36000.00, 2),
+        ('Teacher', 36000.00, 3),
+        ('Teacher', 36000.00, 4),
+        ('Teacher', 36000.00, 5),
+        ('Teacher Assistant', 26000.00, 3),('Teacher Assistant', 26000.00, 5), ('Teacher Assistant', 26000.00, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES  ('Stephanie', 'Jones', 1, 1),         
