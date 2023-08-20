@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const renderDepartmentTable = require('./lib/renderDepartmentTable');
 const renderAllRolesTable = require('./lib/renderAllRolesTable');
+const renderEmployeeDataTable = require('./lib/renderEmployeeDataTable');
 
 
 
@@ -26,8 +27,8 @@ function init() {
       else if (userChoice === 'view all roles') {
       renderAllRolesTable();
        }
-       else {
-        return "try again";
+       else if (userChoice==='view all employees') {
+        renderEmployeeDataTable();
        }
     });
 }
