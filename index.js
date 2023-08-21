@@ -2,8 +2,7 @@ const inquirer = require('inquirer');
 const renderDepartmentTable = require('./lib/renderDepartmentTable');
 const renderAllRolesTable = require('./lib/renderAllRolesTable');
 const renderEmployeeDataTable = require('./lib/renderEmployeeDataTable');
-
-
+const addADepartment = require('./lib/addADepartment');
 
 const userOptions = [
   {
@@ -29,6 +28,9 @@ function init() {
        }
        else if (userChoice==='view all employees') {
         renderEmployeeDataTable();
+       }
+       else if (userChoice==='add a department') {
+        addADepartment();
        }
     });
 }
