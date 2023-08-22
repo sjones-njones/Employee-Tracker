@@ -3,6 +3,9 @@ const renderDepartmentTable = require('./lib/renderDepartmentTable');
 const renderAllRolesTable = require('./lib/renderAllRolesTable');
 const renderEmployeeDataTable = require('./lib/renderEmployeeDataTable');
 const addADepartment = require('./lib/addADepartment');
+const addARole = require('./lib/addARole');
+const addAnEmployee = require('./lib/addAnEmployee');
+const updateAnEmployee =require('./lib/updateAnEmployee');
 
 const userOptions = [
   {
@@ -13,7 +16,7 @@ const userOptions = [
   }
 ];
 
-function init() {
+const init = function () {
   inquirer
     .prompt(userOptions)
     .then((opt) => {
@@ -21,41 +24,29 @@ function init() {
 
       console.log(userChoice);
       if (userChoice === 'view all departments') {
-        renderDepartmentTable();
+        renderDepartmentTable(init);
       }
       else if (userChoice === 'view all roles') {
-      renderAllRolesTable();
-       }
-       else if (userChoice==='view all employees') {
+        renderAllRolesTable();
+      }
+      else if (userChoice === 'view all employees') {
         renderEmployeeDataTable();
-       }
-       else if (userChoice==='add a department') {
+      }
+      else if (userChoice === 'add a department') {
         addADepartment();
-       }
+      }
+      else if (userChoice === 'add a role') {
+        addARole();
+      }
+      else if (userChoice === 'add an employee') {
+        addAnEmployee();
+      }
+      else {
+        updateAnEmployee();
+      }
     });
 }
 
 
 
-//   {
-//     type: 'input',
-//     message: 'What is your user name?',
-//     name: 'username',
-//   },
-//   {
-//     type: 'password',
-//     message: 'What is your password?',
-//     name: 'password',
-//   },
-//   {
-//     type: 'password',
-//     message: 'Re-enter password to confirm:',
-//     name: 'confirm',
-//   },
-// ])
-// .then((response) =>
-//   response.confirm === response.password
-//     ? console.log(response.username)
-//     : console.log('You forgot your password already?!')
-// );
 init();
