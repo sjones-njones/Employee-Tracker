@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 require('console.table');
 const chalk = require("chalk");
 
+// creates connection to mysql
 const db = mysql.createConnection(
   {
     host: 'localhost',
@@ -15,6 +16,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 );
 
+// list of options
 const userOptions = [
   {
     type: 'list',
@@ -24,12 +26,13 @@ const userOptions = [
   }
 ];
 
+// runs when the page opens
 const init = () => {
   inquirer
     .prompt(userOptions)
     .then((opt) => {
       const userChoice = opt.options;
-
+// calls different fxns depending on user choice
       console.log(userChoice);
       if (userChoice === 'view all departments') {
         renderDepartmentTable();
@@ -55,6 +58,7 @@ const init = () => {
     });
 }
 
+//show deparment table 
 const renderDepartmentTable = () => {
   // Query database
   db.query('SELECT department.id AS ID, department.name AS Department FROM department ORDER BY department.name', function (err, results, fields) {
@@ -67,10 +71,12 @@ const renderDepartmentTable = () => {
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(``);        
+  //  recalls init fxn
     init()
   })
 }
 
+// show all rolls table
 function renderAllRolesTable() {
   // Query database
   db.query(`SELECT role.title AS Title, role.id as ID, department.name AS Department, role.salary AS Salary
@@ -91,6 +97,7 @@ function renderAllRolesTable() {
   });
 }
 
+// show all employee table
 function renderEmployeeDataTable() {
   // Query database
   db.query(`SELECT 
@@ -122,6 +129,7 @@ function renderEmployeeDataTable() {
   });
 }
 
+// allows user to add a dept
 function addADepartment() {
    inquirer
     .prompt([
@@ -156,7 +164,7 @@ function addADepartment() {
 
 }
 
-
+// allows user to add a role
 function addARole() {
  
   db.query(`SELECT * FROM department`, function (err, results) {
@@ -167,6 +175,7 @@ function addARole() {
         value: department.id
       };
     });
+    // prompts user 
     inquirer.prompt([
       {
         type: 'input',
@@ -202,6 +211,7 @@ function addARole() {
 
       },
     ])
+    // promise returned and passed into .then
       .then((role) => {
         db.query(`INSERT INTO role SET ?`,
           {
@@ -220,6 +230,8 @@ function addARole() {
       });
   })
 }
+
+// allows user to add an employee
 function addAnEmployee() {
   db.query(`SELECT role.title, role.id FROM role`, function (err, results) {
     if (err) throw err;
@@ -309,6 +321,8 @@ function addAnEmployee() {
       });
   };
 }
+
+//allows user to update an employee role 
 function updateAnEmployee() {
   db.query(`SELECT role.title, role.id FROM role`, function (err, results) {
     if (err) throw err;

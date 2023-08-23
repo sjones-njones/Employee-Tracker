@@ -1,3 +1,4 @@
+-- data for dept table
 Insert INTO department (name)
 VALUES  ('Math'),
         ('English'),
@@ -5,6 +6,7 @@ VALUES  ('Math'),
         ('History'),
         ('Art');
 
+-- data for role table
 INSERT INTO role (title, salary, department_id)
 VALUES  ('Math Teacher', 36000, 1),
         ('English Teacher', 36000, 2),
@@ -15,6 +17,7 @@ VALUES  ('Math Teacher', 36000, 1),
         ('Art Teacher Assistant', 26000, 5), 
         ('History Teacher Assistant', 26000, 4);
 
+-- data for employee table
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES  (1, 'Stephanie', 'Jones', 1, null),         
         (2, 'Neil', 'Jones', 2, 1),

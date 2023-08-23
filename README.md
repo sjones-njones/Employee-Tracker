@@ -10,7 +10,7 @@ This app allows business owner to view and manage the departments, roles, and em
 
 ## Installation 
 
-This app requires Inquirer to be installed to run properly.
+This app requires Inquirer, Mysql, and console.table to be installed to run properly. The user must run the NPM i command in the console to install the dependencies. 
   
 ## Usage
 
