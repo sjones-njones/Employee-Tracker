@@ -15,6 +15,7 @@ This app requires Inquirer, Mysql, and console.table to be installed to run prop
 ## Usage
 
 https://github.com/sjones-njones/Employee-Tracker.git
+
 https://watch.screencastify.com/v/uXwKwySsLdrlkXXV0XZX
 
 ### To run this app:
