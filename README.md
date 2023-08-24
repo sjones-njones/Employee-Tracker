@@ -15,13 +15,20 @@ This app requires Inquirer, Mysql, and console.table to be installed to run prop
 ## Usage
 
 https://github.com/sjones-njones/Employee-Tracker.git
-
+https://watch.screencastify.com/v/uXwKwySsLdrlkXXV0XZX
 
 ### To run this app:
 * open terminal
 * source the schema.sql and the seed.sql
-* enter node server.js
+* install npm dependencies (npm i)
+* enter node index.js
 * answer prompts
+
+  ![image](https://github.com/sjones-njones/Employee-Tracker/assets/132145599/28fdfa26-2006-4413-b505-fda4227aa23e)
+![image](https://github.com/sjones-njones/Employee-Tracker/assets/132145599/16302c53-503d-4b66-bded-45687179d897)
+![image](https://github.com/sjones-njones/Employee-Tracker/assets/132145599/2dd9e15e-8cd6-49ad-9553-a741dd4aa347)
+![image](https://github.com/sjones-njones/Employee-Tracker/assets/132145599/8d07320a-f6bb-4715-b4bc-4950a8e9cc6b)
+
 
 ## Credits
 
