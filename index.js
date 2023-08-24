@@ -22,7 +22,7 @@ const userOptions = [
     type: 'list',
     name: 'options',
     message: 'What would you like to do?',
-    choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role']
+    choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'delete a department', 'delete a role', 'delete an employee']
   }
 ];
 
@@ -32,7 +32,7 @@ const init = () => {
     .prompt(userOptions)
     .then((opt) => {
       const userChoice = opt.options;
-// calls different fxns depending on user choice
+      // calls different fxns depending on user choice
       console.log(userChoice);
       if (userChoice === 'view all departments') {
         renderDepartmentTable();
@@ -52,7 +52,17 @@ const init = () => {
       else if (userChoice === 'add an employee') {
         addAnEmployee();
       }
+      else if (userChoice === 'delete a department') {
+        deleteADepartment();
+      }
+      else if (userChoice === 'delete a role') {
+        deleteARole();
+      }
+      else if (userChoice === 'delete an employee') {
+        deleteAnEmployee();
+      }
       else {
+
         updateAnEmployee();
       }
     });
@@ -70,8 +80,8 @@ const renderDepartmentTable = () => {
     console.log(``);
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``);        
-  //  recalls init fxn
+    console.log(``);
+    //  recalls init fxn
     init()
   })
 }
@@ -87,12 +97,12 @@ function renderAllRolesTable() {
     console.log(``);
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``); 
+    console.log(``);
     console.table(results);
     console.log(``);
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``); 
+    console.log(``);
     init()
   });
 }
@@ -119,19 +129,19 @@ function renderEmployeeDataTable() {
     console.log(``);
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``); 
+    console.log(``);
     console.table(results);
     console.log(``);
     console.log(chalk.cyan.bold(`==============================================================================================`));
     console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``); 
+    console.log(``);
     init()
   });
 }
 
 // allows user to add a dept
 function addADepartment() {
-   inquirer
+  inquirer
     .prompt([
       {
         type: 'input',
@@ -149,12 +159,12 @@ function addADepartment() {
     .then((dept) => {
       newDepartment = dept.addDepartment;
       console.log(``);
-    console.log(chalk.cyan.bold(`==============================================================================================`));
-    console.log(``);  
+      console.log(chalk.cyan.bold(`==============================================================================================`));
+      console.log(``);
       console.log(`New Department Added: ${newDepartment}`);
       console.log(``);
       console.log(chalk.cyan.bold(`==============================================================================================`));
-      console.log(``);  
+      console.log(``);
       // Query database
       db.query(`INSERT INTO department SET ?`, { name: newDepartment }, function (err, results) {
         console.table('A new department has been added.');
@@ -166,7 +176,7 @@ function addADepartment() {
 
 // allows user to add a role
 function addARole() {
- 
+
   db.query(`SELECT * FROM department`, function (err, results) {
     if (err) throw err;
     const deptChoices = results.map((department) => {
@@ -211,7 +221,7 @@ function addARole() {
 
       },
     ])
-    // promise returned and passed into .then
+      // promise returned and passed into .then
       .then((role) => {
         db.query(`INSERT INTO role SET ?`,
           {
@@ -219,13 +229,13 @@ function addARole() {
             salary: role.addSalary,
             department_id: role.addDepartment
           });
-          console.log(``);
-          console.log(chalk.cyan.bold(`==============================================================================================`));
-          console.log(``);  
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
         console.log("New role added!");
         console.log(``);
         console.log(chalk.cyan.bold(`==============================================================================================`));
-        console.log(``);  
+        console.log(``);
         init();
       });
   })
@@ -241,7 +251,6 @@ function addAnEmployee() {
         value: role.id
       };
     });
-      // adds new city to the top of the list
     db.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id FROM employee`,
       function (err, results) {
         if (err) throw err;
@@ -312,11 +321,11 @@ function addAnEmployee() {
         )
         console.log(``);
         console.log(chalk.cyan.bold(`==============================================================================================`));
-        console.log(``);  
+        console.log(``);
         console.log("New employee added!");
         console.log(``);
         console.log(chalk.cyan.bold(`==============================================================================================`));
-        console.log(``);  
+        console.log(``);
         init();
       });
   };
@@ -369,16 +378,128 @@ function updateAnEmployee() {
         );
         console.log(``);
         console.log(chalk.cyan.bold(`==============================================================================================`));
-        console.log(``);  
+        console.log(``);
         console.log("Employee role updated!");
         console.log(``);
         console.log(chalk.cyan.bold(`==============================================================================================`));
-        console.log(``);  
+        console.log(``);
         init();
       });
   };
 }
+function deleteADepartment() {
+  db.query(`SELECT * FROM department`, function (err, results) {
+    if (err) throw err;
+    const deptChoices = results.map((department) => {
+      return {
+        name: department.name,
+        value: department.id
+      };
+    });
+    inquirer.prompt([
+      {
+        type: 'list',
+        name: 'deleteDepartment',
+        message: 'Which department would you like to delete?',
+        choices: deptChoices
+
+      },
+    ])
+      .then((dept) => {
+        lostDepartment = dept.deleteDepartment;
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        console.log(`Department Deleted`);
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        // Query database
+
+        db.query(`DELETE FROM department WHERE id = ${lostDepartment}`, function (err, results) {
+          init();
+        });
+      });
+  })
+}
+
+function deleteARole() {
+  db.query(`SELECT role.title, role.id FROM role`, function (err, results) {
+    if (err) throw err;
+    const roleChoices = results.map((role) => {
+      return {
+        name: role.title,
+        value: role.id
+      };
+    });
+    inquirer
+
+      .prompt([
+        {
+          type: 'list',
+          name: 'deleteRole',
+          message: 'Which role would you like to delete?',
+          choices: roleChoices
+
+        },
+      ])
+      .then((role) => {
+        lostRole = role.deleteRole;
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        console.log(`Role Deleted`);
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        // Query database
+
+        db.query(`DELETE FROM role WHERE id = ${lostRole}`, function (err, results) {
+          init();
+        })
+      });
+  });
+}
 
 
+
+function deleteAnEmployee() {
+  db.query(`SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS name, employee.id FROM employee`, function (err, results) {
+    if (err) throw err;
+    const employeeChoices = results.map((emp) => {
+      return {
+        name: emp.name,
+        value: emp.id
+      };
+    });
+    console.log(employeeChoices);
+    inquirer
+
+      .prompt([
+        {
+          type: 'list',
+          name: 'deleteEmployee',
+          message: 'Which employee would you like to delete?',
+          choices: employeeChoices
+
+        },
+      ])
+      .then((emp) => {
+        lostEmployee = emp.deleteEmployee;
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        console.log(`Employee Deleted: `);
+        console.log(``);
+        console.log(chalk.cyan.bold(`==============================================================================================`));
+        console.log(``);
+        // Query database
+
+        db.query(`DELETE FROM employee WHERE id = ${lostEmployee}`, function (err, results) {
+          init();
+        })
+      });
+  });
+}
 
 init();
