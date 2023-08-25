@@ -22,7 +22,7 @@ const userOptions = [
     type: 'list',
     name: 'options',
     message: 'What would you like to do?',
-    choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'delete a department', 'delete a role', 'delete an employee']
+    choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'delete a department', 'delete a role', 'delete an employee', 'view employees by department']
   }
 ];
 
@@ -60,6 +60,9 @@ const init = () => {
       }
       else if (userChoice === 'delete an employee') {
         deleteAnEmployee();
+      }
+      else if (userChoice === 'view employees by department') {
+        viewEmployeesByDepartment();
       }
       else {
 
@@ -500,6 +503,50 @@ function deleteAnEmployee() {
         })
       });
   });
+}
+
+function viewEmployeesByDepartment() {
+  db.query(`SELECT * FROM department`, function (err, results) {
+    if (err) throw err;
+    const deptChoices = results.map((department) => {
+      return {
+        name: department.name,
+        value: department.id
+      };
+    });
+    inquirer.prompt([
+      {
+        type: 'list',
+        name: 'empByDepartment',
+        message: 'Which department would you like to view employees for?',
+        choices: deptChoices
+
+      },
+    ])
+      .then((dept) => {
+        departmentViewed = dept.empByDepartment;
+        // Query database
+
+        db.query(`
+        SELECT 
+        CONCAT(employee.first_name, ' ', employee.last_name) AS name 
+        FROM employee 
+          JOIN role
+          ON employee.role_id = role.id
+          JOIN department
+          ON role.department_id = department.id WHERE department.id = ${departmentViewed}`, function (err, results) {
+            console.log(``);
+            console.log(chalk.cyan.bold(`==============================================================================================`));
+            console.log(``);
+            console.table(results);
+            console.log(``);
+            console.log(chalk.cyan.bold(`==============================================================================================`));
+            console.log(``);
+            // console.log(err);
+          init();
+        });
+      });
+  })
 }
 
 init();
